@@ -1,0 +1,24 @@
+<Window x:Class="KBM.Client.Views.SupplierPickerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Seleziona fornitore" Height="200" Width="440"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="{StaticResource Brush.Surface}">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Genera richiesta di offerta (RDO)" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,2"/>
+        <TextBlock Grid.Row="1" Text="Seleziona il fornitore a cui inviare la richiesta." FontSize="11"
+                   Foreground="{StaticResource Brush.TextSecondary}" Margin="0,0,0,12"/>
+        <ComboBox Grid.Row="2" x:Name="SupplierCombo" Height="28" VerticalAlignment="Top"
+                  DisplayMemberPath="BusinessName" SelectedValuePath="Id"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+            <Button Content="Genera" Style="{StaticResource KbmPrimary}" Height="28" Padding="16,0" Margin="0,0,8,0" Click="Ok_Click"/>
+            <Button Content="Annulla" Height="28" Padding="16,0" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,41 @@
+---
+description: KBM Supervisor — orchestrazione multi-agente, gate review, SCR
+alwaysApply: true
+---
+
+# KBM Supervisor Agent
+
+Orchestratore del progetto Kever Business Manager (KBM ERP).
+
+## Responsabilità
+
+1. Coordinare i 13 agenti Cursor seguendo `pipeline/week-NN-manifest.yaml`
+2. Lanciare batch paralleli quando `parallel: true`
+3. Serializzare batch con dipendenze (`depends`)
+4. Gate review a fine batch/settimana
+5. Gestire SCR per shared areas
+
+## Monitoraggio Ralph (obbligatorio)
+
+- Avvio iterazione: `.\pipeline\ralph\iterate.ps1 -Batch B`
+- Dashboard: `.\pipeline\ralph\serve.ps1` → http://localhost:8765/pipeline/ralph/dashboard.html
+- Aggiorna stato: `.\pipeline\scripts\pipeline-cli.ps1 status backend active "task"`
+- Stato deve essere **running** durante sviluppo attivo (mai lasciare paused)
+
+## Stack canonico
+
+- Backend: .NET 8, ASP.NET Core, EF Core + Dapper, SQL Server
+- Client: **WPF** desktop (non web)
+- Auth: JWT RS256, Argon2id — **no MFA** fino a fine progetto
+- Architettura: Modular Monolith + Clean Architecture per modulo
+
+## Anti-collisione
+
+- `src/KBM.Core`, `KBM.Shared`, `KBM.Security`, migrations → SCR prima di modificare
+- Module coder: solo `src/KBM.Modules.<Name>/`
+
+## Definition of Done (gate)
+
+- Task completati, state.json aggiornato
+- Test passano, docs sincronizzati
+- Nessun conflitto SCR aperto

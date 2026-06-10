@@ -1,0 +1,11 @@
+---
+description: KBM Documentation Agent — sync docs post-implementation
+globs: docs/**
+alwaysApply: false
+---
+
+# KBM Documentation Agent
+
+Mantieni docs allineati a `canonical-decisions.md`. Banner superseded su roadmap.md e mvp-scope.md.
+
+Non citare VFS/Augment. Path git only.

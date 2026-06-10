@@ -1,0 +1,53 @@
+phase: 1
+week: 1
+excluded: [US-002]
+description: "Foundation & Core Platform — Auth + Infra (no MFA)"
+
+batches:
+  - id: A
+    status: in_progress
+    parallel: true
+    depends: []
+    tasks:
+      - agent: devops
+        us: [US-INFRA-01]
+        prompt: pipeline/prompts/devops-scaffold.md
+      - agent: database-architect
+        us: [US-INFRA-02-plan]
+        mode: review
+
+  - id: B
+    status: pending
+    parallel: true
+    depends: [A]
+    tasks:
+      - agent: backend
+        us: [US-001, US-003, US-INFRA-03, US-INFRA-04, US-INFRA-05]
+      - agent: frontend
+        us: [US-012]
+
+  - id: C
+    status: pending
+    parallel: false
+    depends: [B]
+    tasks:
+      - agent: backend
+        us: [US-INFRA-02, US-018]
+      - agent: frontend
+        us: [US-018-ui, US-001-ui]
+      - agent: qa
+        us: [smoke-auth-no-mfa]
+
+  - id: D
+    status: pending
+    depends: [C]
+    tasks:
+      - agent: supervisor
+        prompt: pipeline/prompts/supervisor-gate-review.md
+
+handoffs:
+  - { from: devops, to: backend, artifact: "src/ solution scaffold" }
+  - { from: devops, to: frontend, artifact: "KBM.Client project" }
+  - { from: backend, to: frontend, artifact: "POST /api/auth/login OpenAPI" }
+  - { from: backend, to: qa, artifact: "auth integration tests" }
+  - { from: qa, to: supervisor, artifact: "gate-review-week1.md" }

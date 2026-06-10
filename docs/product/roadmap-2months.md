@@ -22,10 +22,10 @@
 
 ### Deliverable
 - [ ] Solution structure (.NET 8 Modular Monolith, cartelle per modulo)
-- [ ] Database schema completo creato via EF Core migrations (tutte le tabelle Fase 1-7)
+- [ ] Migration Core Platform W1 (schema incrementale — vedi migration-strategy.md §0)
 - [ ] CI/CD pipeline base (build + test automatici)
 - [ ] Login funzionante (POST /api/auth/login → JWT)
-- [ ] Password hashing (bcrypt) + lockout dopo 5 tentativi
+- [ ] Password hashing (Argon2id) + lockout dopo 5 tentativi
 - [ ] Setup Wizard first-run (Azienda + Admin user)
 - [ ] Client shell: navigation, login screen, routing base
 
@@ -54,8 +54,8 @@
 - [ ] Permessi granulari: struttura `{modulo}.{risorsa}.{azione}`, permission seeding
 - [ ] Multi-azienda: CRUD aziende, selezione contesto al login, tenant isolation su tutte le query
 - [ ] Audit log middleware: intercetta tutte le operazioni CUD con before/after
-- [ ] MFA (TOTP opzionale, obbligatorio per Admin)
 - [ ] Password policy + reset password via email
+- ~~MFA (TOTP)~~ — posticipato a fine progetto (DEC-012)
 
 ### User Stories Completate
 - US-004 Password Policy e Reset (M)
@@ -65,7 +65,7 @@
 - US-008 Selezione contesto azienda (S)
 - US-009 Audit Log (L)
 - US-013 Assegnazione utenti ad aziende (M)
-- US-002 MFA (L)
+- ~~US-002 MFA~~ (P2 fine progetto)
 
 **Story Points**: ~30 SP
 
@@ -139,6 +139,12 @@
 
 ### Risks
 - Import Excel con dati malformati → *mitigation*: validazione riga per riga con report errori
+
+### Extra delivery — Ciclo passivo RDA/RDO + Reporting + Modalita sviluppatore
+- [x] Reporting pluggable (`KBM.Reporting`): QuestPDF (PDF), Stampa unione Word (OpenXML), Crystal segnaposto — vedi `docs/architecture/reporting-and-config.md`
+- [x] Definizioni report configurabili (`ReportDefinition`) + endpoint `POST /api/reports/{key}`
+- [x] Configurazioni azienda/tecniche (`SystemSetting` esteso) via modalita sviluppatore (gesture nascosta + permessi `system.*`)
+- [x] RDA (richieste di acquisto) e RDO (richieste di offerta) con numeratore, righe, flusso RDA→RDO e stampa PDF
 
 ---
 

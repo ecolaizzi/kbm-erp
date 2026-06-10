@@ -1,0 +1,17 @@
+{
+  "ConnectionStrings": {
+    "Default": "Server=95.110.142.60;Database=kbmdbdev;User Id=keverdbuser1;Password=<SECRET>;TrustServerCertificate=True;Encrypt=True;"
+  },
+  "Jwt": {
+    "Issuer": "kbm-dev",
+    "Audience": "kbm-api",
+    "AccessTokenMinutes": 15,
+    "RefreshTokenDays": 7
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}

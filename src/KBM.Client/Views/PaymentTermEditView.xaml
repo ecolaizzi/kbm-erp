@@ -1,0 +1,149 @@
+<UserControl x:Class="KBM.Client.Views.PaymentTermEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Margin" Value="0,0,0,3"/>
+            <Setter Property="Foreground" Value="{StaticResource Brush.TextSecondary}"/>
+        </Style>
+        <Style x:Key="SectionBand" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource Brush.NavHeader}"/>
+            <Setter Property="Padding" Value="8,3"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style x:Key="SectionBandText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="10.5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="ColForm" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{StaticResource Brush.SurfaceAlt}" BorderBrush="{StaticResource Brush.Border}"
+                BorderThickness="1" CornerRadius="3" Padding="10,6" Margin="0,0,0,8">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button x:Name="SaveBtn" Style="{StaticResource KbmPrimary}" Height="28" Padding="14,0"
+                            Margin="0,0,8,0" Click="Save_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Salva" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Content="Annulla" Height="28" Padding="14,0" Click="Cancel_Click"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock x:Name="FormTitle" Text="Nuova condizione di pagamento" FontSize="15" FontWeight="SemiBold"
+                               Foreground="{StaticResource Brush.Text}"/>
+                    <TextBlock x:Name="FormSubtitle" Text="Compila i dati e premi Salva" FontSize="11"
+                               Foreground="{StaticResource Brush.TextSecondary}" Margin="0,1,0,0"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border x:Name="ErrorBox" Grid.Row="1" Visibility="Collapsed" Margin="0,0,0,8"
+                Background="#FEF2F2" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="3" Padding="10,6">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE783;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                           Foreground="{StaticResource Brush.Error}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                <TextBlock x:Name="ErrorText" Foreground="#991B1B" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Padding="0,2,8,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="24"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <Border Style="{StaticResource SectionBand}"><TextBlock Text="DATI PRINCIPALI" Style="{StaticResource SectionBandText}"/></Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Style="{StaticResource ColForm}">
+                            <TextBlock Text="Codice *" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="CodeBox" MaxLength="20"/>
+                        </StackPanel>
+                        <StackPanel x:Name="StatusPanel" Grid.Column="2" Style="{StaticResource ColForm}" Visibility="Collapsed">
+                            <TextBlock Text="Stato" Style="{StaticResource FieldLabel}"/>
+                            <ComboBox x:Name="StatusCombo">
+                                <ComboBoxItem Content="Attivo" Tag="Active" IsSelected="True"/>
+                                <ComboBoxItem Content="Disattivato" Tag="Inactive"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Style="{StaticResource ColForm}">
+                        <TextBlock Text="Descrizione *" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="DescriptionBox" MaxLength="150"/>
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource ColForm}">
+                        <TextBlock Text="Metodo di pagamento" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="MethodBox" MaxLength="50"/>
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource ColForm}">
+                        <TextBlock Text="Note" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="NotesBox" Height="56" AcceptsReturn="True" TextWrapping="Wrap"
+                                 VerticalContentAlignment="Top"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <Border Style="{StaticResource SectionBand}"><TextBlock Text="SCADENZIERE" Style="{StaticResource SectionBandText}"/></Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Style="{StaticResource ColForm}">
+                            <TextBlock Text="Numero rate *" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="InstallmentsBox" Text="1" TextChanged="Recalc"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Style="{StaticResource ColForm}">
+                            <TextBlock Text="1\u00aa scadenza (giorni)" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="FirstDueBox" Text="30" TextChanged="Recalc"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Style="{StaticResource ColForm}">
+                            <TextBlock Text="Intervallo rate (giorni)" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="IntervalBox" Text="30" TextChanged="Recalc"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Style="{StaticResource ColForm}" VerticalAlignment="Bottom">
+                            <CheckBox x:Name="EndOfMonthCheck" Content="Scadenza a fine mese" Margin="0,18,0,0" Click="Recalc"/>
+                        </StackPanel>
+                    </Grid>
+                    <Border Background="{StaticResource Brush.SurfaceAlt}" BorderBrush="{StaticResource Brush.Border}"
+                            BorderThickness="1" CornerRadius="3" Padding="8,6" Margin="0,2,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Anteprima scadenziere (su 1.000,00 \u20ac, oggi)" FontSize="10.5"
+                                       Foreground="{StaticResource Brush.TextSecondary}" Margin="0,0,0,4"/>
+                            <ItemsControl x:Name="PreviewList"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

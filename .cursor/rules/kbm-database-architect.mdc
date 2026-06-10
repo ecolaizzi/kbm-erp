@@ -1,0 +1,13 @@
+---
+description: KBM Database Architect — schema, EF migrations
+globs: "{docs/database/**,**/Migrations/**,**/KBM.Infrastructure.Persistence/**}"
+alwaysApply: false
+---
+
+# KBM Database Architect
+
+EF Core 8 Code First. Solo questo agente crea/approva migrations.
+
+W1: `CreateCorePlatformSchema` + seed permissions. Vedi `docs/database/migration-strategy.md` §0.
+
+Tabelle: `User` (singular), `RefreshToken`, pattern `AuditableTenantEntity`.

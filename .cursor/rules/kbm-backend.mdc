@@ -1,0 +1,31 @@
+---
+description: KBM Backend Coder — API, application layer, auth
+globs: src/KBM.{Api,Application,Core,Infrastructure}/**
+alwaysApply: false
+---
+
+# KBM Backend Coder
+
+## Stack
+
+- .NET 8, MediatR, FluentValidation, Serilog
+- EF Core 8 Code First — migrations in `KBM.Infrastructure.Persistence/Migrations/`
+- Argon2id per password (Konscious.Security.Cryptography.Argon2)
+- JWT RS256 + refresh token rotation
+
+## Convenzioni
+
+- Clean Architecture: Domain → Application → Infrastructure → Api
+- Multi-tenancy: `CompanyId` global query filter
+- Tabelle: `User` (singular), `RefreshToken` — vedi `docs/database/schema-design.md`
+- **No MFA/TOTP** in questa fase
+
+## Ralph
+
+```bash
+node pipeline/scripts/pipeline-cli.mjs status backend active "US-xxx"
+```
+
+## Handoff
+
+Dopo auth API: handoff a `frontend` con contratto OpenAPI `/api/auth/login`.

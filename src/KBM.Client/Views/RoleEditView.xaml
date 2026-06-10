@@ -1,0 +1,84 @@
+<UserControl x:Class="KBM.Client.Views.RoleEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock x:Name="FormTitle" Text="Nuovo ruolo" FontSize="20" FontWeight="SemiBold"
+                       Foreground="{StaticResource Brush.Text}"/>
+            <TextBlock x:Name="FormSubtitle" Text="Definisci codice, nome e permessi" FontSize="12"
+                       Foreground="{StaticResource Brush.TextSecondary}" Margin="0,2,0,0"/>
+        </StackPanel>
+
+        <Border x:Name="ErrorBox" Grid.Row="1" Visibility="Collapsed" Margin="0,0,0,12"
+                Background="#FEF2F2" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="3" Padding="12,8">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE783;" FontFamily="Segoe MDL2 Assets" FontSize="13"
+                           Foreground="{StaticResource Brush.Error}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                <TextBlock x:Name="ErrorText" Foreground="#991B1B" FontSize="12" VerticalAlignment="Center"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel MaxWidth="820" HorizontalAlignment="Left">
+                <TextBlock Text="DATI RUOLO" FontSize="11" FontWeight="SemiBold"
+                           Foreground="{StaticResource Brush.TextSecondary}" Margin="0,0,0,8"/>
+                <Border Background="{StaticResource Brush.Surface}" BorderBrush="{StaticResource Brush.Border}"
+                        BorderThickness="1" CornerRadius="3" Padding="16" Margin="0,0,0,18">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,12">
+                            <TextBlock Text="Codice *" FontSize="12" Margin="0,0,0,4"/>
+                            <TextBox x:Name="CodeBox" Height="32"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,12">
+                            <TextBlock Text="Nome *" FontSize="12" Margin="0,0,0,4"/>
+                            <TextBox x:Name="NameBox" Height="32"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                            <TextBlock Text="Descrizione" FontSize="12" Margin="0,0,0,4"/>
+                            <TextBox x:Name="DescriptionBox" Height="60" AcceptsReturn="True"
+                                     TextWrapping="Wrap" VerticalContentAlignment="Top"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <DockPanel Margin="0,0,0,8">
+                    <TextBlock Text="PERMESSI" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{StaticResource Brush.TextSecondary}" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="PermCount" DockPanel.Dock="Right" FontSize="11"
+                               Foreground="{StaticResource Brush.TextSecondary}" HorizontalAlignment="Right"/>
+                </DockPanel>
+                <Border Background="{StaticResource Brush.Surface}" BorderBrush="{StaticResource Brush.Border}"
+                        BorderThickness="1" CornerRadius="3" Padding="16">
+                    <StackPanel x:Name="PermSections"/>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="3" BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,1,0,0"
+                Margin="0,16,0,0" Padding="0,12,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Annulla" Width="110" Height="34" Margin="0,0,10,0" Click="Cancel_Click"/>
+                <Button x:Name="SaveBtn" Content="Salva" Width="130" Height="34"
+                        Style="{StaticResource KbmPrimary}" Click="Save_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

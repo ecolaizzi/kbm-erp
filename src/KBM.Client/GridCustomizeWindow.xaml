@@ -1,0 +1,126 @@
+<Window x:Class="KBM.Client.GridCustomizeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Personalizzazione griglie" Height="520" Width="560"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+    <Border Background="White" BorderBrush="{StaticResource Brush.Border}" BorderThickness="1" CornerRadius="4">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" Opacity="0.25" BlurRadius="20" ShadowDepth="3"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header band -->
+            <Border Grid.Row="0" Padding="20,14" MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="{StaticResource C.Primary600}" Offset="0"/>
+                        <GradientStop Color="{StaticResource C.Primary700}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE71D;" FontFamily="Segoe MDL2 Assets" FontSize="20"
+                               Foreground="White" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Personalizzazione griglie" FontSize="16" FontWeight="SemiBold" Foreground="White"/>
+                        <TextBlock Text="Colonne visibili, larghezza, ordine e layout (stile Business Cube)"
+                                   FontSize="11" Foreground="#DCE6F2" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Gestione layout -->
+            <Border Grid.Row="1" Background="{StaticResource Brush.SurfaceAlt}"
+                    BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,0,0,1" Padding="16,10">
+                <DockPanel>
+                    <TextBlock Text="Layout" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"
+                               Foreground="{StaticResource Brush.TextSecondary}" Margin="0,0,8,0"/>
+                    <ComboBox x:Name="LayoutCombo" Width="160" Height="28" DisplayMemberPath="Name"
+                              SelectionChanged="LayoutCombo_SelectionChanged" VerticalAlignment="Center"/>
+                    <Button Content="Nuovo" Height="28" Padding="12,0" Margin="8,0,0,0" Click="NewLayout_Click"
+                            VerticalAlignment="Center"/>
+                    <Button Content="Elimina" Height="28" Padding="12,0" Margin="6,0,0,0" Click="DeleteLayout_Click"
+                            VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Nome" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   Foreground="{StaticResource Brush.TextSecondary}"/>
+                        <TextBox x:Name="NameBox" Width="150" Height="28" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Intestazione colonne -->
+            <Border Grid.Row="2" Background="{StaticResource Brush.NavHeader}" Padding="12,4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="70"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Visibile" FontSize="10.5" FontWeight="SemiBold" Foreground="White"/>
+                    <TextBlock Grid.Column="1" Text="Colonna" FontSize="10.5" FontWeight="SemiBold" Foreground="White"/>
+                    <TextBlock Grid.Column="2" Text="Larghezza" FontSize="10.5" FontWeight="SemiBold" Foreground="White"/>
+                    <TextBlock Grid.Column="3" Text="Ordine" FontSize="10.5" FontWeight="SemiBold" Foreground="White"/>
+                </Grid>
+            </Border>
+
+            <!-- Righe colonne -->
+            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="ColumnsList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,0,0,1" Padding="12,3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="70"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Grid.Column="0" IsChecked="{Binding Visible, Mode=TwoWay}"
+                                              VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" FontSize="12"/>
+                                    <TextBox Grid.Column="2" Width="64" Height="24" HorizontalAlignment="Left"
+                                             VerticalContentAlignment="Center" FontSize="11"
+                                             Text="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                             ToolTip="Larghezza in pixel (0 = automatica)"/>
+                                    <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                        <Button Content="&#xE74A;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                                Width="28" Height="24" Padding="0" Margin="0,0,3,0"
+                                                Click="MoveUp_Click" Tag="{Binding}" ToolTip="Su"/>
+                                        <Button Content="&#xE74B;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                                Width="28" Height="24" Padding="0"
+                                                Click="MoveDown_Click" Tag="{Binding}" ToolTip="Giù"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Pulsanti -->
+            <Border Grid.Row="4" Background="{StaticResource Brush.SurfaceAlt}"
+                    BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,1,0,0" Padding="16,12">
+                <DockPanel>
+                    <Button Content="Predefinito" Height="32" Padding="14,0" Click="Reset_Click"
+                            HorizontalAlignment="Left" ToolTip="Tutte le colonne visibili, ordine e larghezza originali"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Annulla" Width="100" Height="32" Margin="0,0,8,0" IsCancel="True"/>
+                        <Button Content="Conferma" Width="120" Height="32" Style="{StaticResource KbmButton}"
+                                Click="Confirm_Click" IsDefault="True"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

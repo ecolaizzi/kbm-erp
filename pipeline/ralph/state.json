@@ -1,0 +1,577 @@
+{
+    "overallProgress":  72,
+    "version":  1,
+    "agents":  [
+                   {
+                       "id":  "supervisor",
+                       "name":  "Supervisor",
+                       "currentTask":  "Batch F orchestration",
+                       "progress":  65,
+                       "role":  "orchestrator",
+                       "layer":  0,
+                       "status":  "active"
+                   },
+                   {
+                       "id":  "product-owner",
+                       "name":  "Product Owner",
+                       "currentTask":  null,
+                       "progress":  100,
+                       "role":  "design",
+                       "layer":  1,
+                       "status":  "idle"
+                   },
+                   {
+                       "id":  "chief-architect",
+                       "name":  "Chief Architect",
+                       "currentTask":  null,
+                       "progress":  100,
+                       "role":  "design",
+                       "layer":  1,
+                       "status":  "done"
+                   },
+                   {
+                       "id":  "database-architect",
+                       "name":  "Database Architect",
+                       "currentTask":  "RBAC migration",
+                       "progress":  100,
+                       "role":  "design",
+                       "layer":  1,
+                       "status":  "done"
+                   },
+                   {
+                       "id":  "security-architect",
+                       "name":  "Security Architect",
+                       "currentTask":  null,
+                       "progress":  100,
+                       "role":  "design",
+                       "layer":  1,
+                       "status":  "done"
+                   },
+                   {
+                       "id":  "ux-designer",
+                       "name":  "UX Designer",
+                       "currentTask":  null,
+                       "progress":  100,
+                       "role":  "design",
+                       "layer":  1,
+                       "status":  "idle"
+                   },
+                   {
+                       "id":  "scouting",
+                       "name":  "Scouting",
+                       "currentTask":  null,
+                       "progress":  100,
+                       "role":  "design",
+                       "layer":  1,
+                       "status":  "done"
+                   },
+                   {
+                       "id":  "devops",
+                       "name":  "DevOps",
+                       "currentTask":  "US-INFRA-01",
+                       "progress":  100,
+                       "role":  "code",
+                       "layer":  2,
+                       "status":  "done"
+                   },
+                   {
+                       "id":  "backend",
+                       "name":  "Backend Coder",
+                       "currentTask":  "US-005/006/007/009",
+                       "progress":  100,
+                       "role":  "code",
+                       "layer":  2,
+                       "status":  "done"
+                   },
+                   {
+                       "id":  "frontend",
+                       "name":  "Frontend Coder",
+                       "currentTask":  "WPF Core admin",
+                       "progress":  30,
+                       "role":  "code",
+                       "layer":  2,
+                       "status":  "done"
+                   },
+                   {
+                       "id":  "module-coder",
+                       "name":  "Module Coder",
+                       "currentTask":  null,
+                       "progress":  0,
+                       "role":  "code",
+                       "layer":  2,
+                       "status":  "idle"
+                   },
+                   {
+                       "id":  "qa",
+                       "name":  "QA Agent",
+                       "currentTask":  "smoke-rbac 2/2",
+                       "progress":  0,
+                       "role":  "code",
+                       "layer":  2,
+                       "status":  "done"
+                   },
+                   {
+                       "id":  "documentation",
+                       "name":  "Documentation",
+                       "currentTask":  null,
+                       "progress":  100,
+                       "role":  "code",
+                       "layer":  2,
+                       "status":  "done"
+                   }
+               ],
+    "week":  2,
+    "handoffs":  [
+                     {
+                         "id":  "h3",
+                         "at":  "2026-06-09T12:52:00Z",
+                         "to":  "backend",
+                         "from":  "devops",
+                         "artifact":  "src/ scaffold",
+                         "status":  "completed"
+                     },
+                     {
+                         "id":  "h5",
+                         "at":  "2026-06-09T13:06:39.1022078Z",
+                         "to":  "frontend",
+                         "from":  "backend",
+                         "artifact":  "Users API",
+                         "status":  "completed"
+                     },
+                     {
+                         "id":  "h6",
+                         "at":  "2026-06-09T12:58:00Z",
+                         "to":  "qa",
+                         "from":  "backend",
+                         "artifact":  "auth endpoints",
+                         "status":  "completed"
+                     },
+                     {
+                         "id":  "h7",
+                         "at":  "2026-06-09T13:01:00Z",
+                         "to":  "backend",
+                         "from":  "database-architect",
+                         "artifact":  "RBAC migration + seed",
+                         "status":  "completed"
+                     },
+                     {
+                         "id":  "h8",
+                         "at":  "2026-06-09T13:04:46.6805814Z",
+                         "to":  "frontend",
+                         "from":  "backend",
+                         "artifact":  "Users/Companies/Roles API",
+                         "status":  "in_progress"
+                     },
+                     {
+                         "id":  "h6",
+                         "from":  "frontend",
+                         "to":  "qa",
+                         "artifact":  "RBAC smoke tests",
+                         "status":  "completed",
+                         "at":  "2026-06-09T13:06:39.1601207Z"
+                     }
+                 ],
+    "project":  "KBM",
+    "batches":  [
+                    {
+                        "status":  "done",
+                        "tasks":  [
+                                      "devops:US-INFRA-01"
+                                  ],
+                        "id":  "A",
+                        "depends":  [
+
+                                    ]
+                    },
+                    {
+                        "status":  "done",
+                        "tasks":  [
+                                      "backend:US-001",
+                                      "frontend:US-012"
+                                  ],
+                        "id":  "B",
+                        "depends":  [
+                                        "A"
+                                    ]
+                    },
+                    {
+                        "status":  "done",
+                        "tasks":  [
+                                      "backend:US-018",
+                                      "qa:smoke-auth"
+                                  ],
+                        "id":  "C",
+                        "depends":  [
+                                        "B"
+                                    ]
+                    },
+                    {
+                        "status":  "done",
+                        "tasks":  [
+                                      "supervisor:gate-review-w1"
+                                  ],
+                        "id":  "D",
+                        "depends":  [
+                                        "C"
+                                    ]
+                    },
+                    {
+                        "status":  "done",
+                        "tasks":  [
+                                      "database-architect:RBAC",
+                                      "backend:US-006",
+                                      "backend:US-009"
+                                  ],
+                        "id":  "E",
+                        "depends":  [
+                                        "D"
+                                    ]
+                    },
+                    {
+                        "status":  "done",
+                        "tasks":  [
+                                      "frontend:US-005-ui",
+                                      "qa:smoke-rbac"
+                                  ],
+                        "id":  "F",
+                        "depends":  [
+                                        "E"
+                                    ]
+                    },
+                    {
+                        "status":  "done",
+                        "tasks":  [
+                                      "frontend:US-007-ui",
+                                      "frontend:US-008-ui"
+                                  ],
+                        "id":  "G",
+                        "depends":  [
+                                        "F"
+                                    ]
+                    },
+                    {
+                        "status":  "done",
+                        "tasks":  [
+                                      "supervisor:gate-review-w2"
+                                  ],
+                        "id":  "H",
+                        "depends":  [
+                                        "G"
+                                    ]
+                    }
+                ],
+    "events":  [
+                   {
+                       "at":  "2026-06-10T08:22:42.1623503Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-10T05:45:34.5874385Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-10T03:40:29.2044945Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-10T01:35:22.8550594Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-09T23:30:17.2101969Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-09T21:25:10.8728649Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-09T19:20:04.5993008Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-09T17:14:58.5146471Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-09T15:09:53.2898487Z",
+                       "type":  "heartbeat",
+                       "agent":  "system",
+                       "message":  "Monitor attivo"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:49.3690262Z",
+                       "type":  "progress",
+                       "agent":  "supervisor",
+                       "message":  "Overall: 72%"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:49.3343274Z",
+                       "type":  "log",
+                       "agent":  "supervisor",
+                       "message":  "Gate Review Week 2 GO"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:49.3050293Z",
+                       "type":  "agent_status",
+                       "agent":  "frontend",
+                       "message":  "Frontend Coder -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:49.2543954Z",
+                       "type":  "task",
+                       "agent":  "backend",
+                       "message":  "US-008-ui -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:49.2314213Z",
+                       "type":  "task",
+                       "agent":  "backend",
+                       "message":  "US-007-ui -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:49.0222039Z",
+                       "type":  "task",
+                       "agent":  "frontend",
+                       "message":  "US-005-ui -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:48.8954208Z",
+                       "type":  "batch",
+                       "agent":  "supervisor",
+                       "message":  "Batch H -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:48.8407675Z",
+                       "type":  "batch",
+                       "agent":  "supervisor",
+                       "message":  "Batch G -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:39:48.7169604Z",
+                       "type":  "batch",
+                       "agent":  "supervisor",
+                       "message":  "Batch F -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:06:39.1870135Z",
+                       "type":  "progress",
+                       "agent":  "supervisor",
+                       "message":  "Overall: 68%"
+                   },
+                   {
+                       "at":  "2026-06-09T13:06:39.1601207Z",
+                       "type":  "handoff",
+                       "agent":  "frontend",
+                       "message":  "frontend -\u003e qa: RBAC smoke tests (completed)"
+                   },
+                   {
+                       "at":  "2026-06-09T13:06:39.1082130Z",
+                       "type":  "handoff",
+                       "agent":  "backend",
+                       "message":  "backend -\u003e frontend: Users API (completed)"
+                   },
+                   {
+                       "at":  "2026-06-09T13:06:39.0645762Z",
+                       "type":  "task",
+                       "agent":  "qa",
+                       "message":  "smoke-rbac -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:06:39.0409735Z",
+                       "type":  "task",
+                       "agent":  "frontend",
+                       "message":  "US-005-ui -\u003e in_progress"
+                   },
+                   {
+                       "at":  "2026-06-09T13:06:39.0108087Z",
+                       "type":  "agent_status",
+                       "agent":  "qa",
+                       "message":  "QA Agent -\u003e done"
+                   },
+                   {
+                       "at":  "2026-06-09T13:06:38.9364298Z",
+                       "type":  "agent_status",
+                       "agent":  "frontend",
+                       "message":  "Frontend Coder -\u003e active"
+                   },
+                   {
+                       "at":  "2026-06-09T13:04:47.4983530Z",
+                       "type":  "log",
+                       "agent":  "supervisor",
+                       "message":  "iterate.ps1 avviato - Batch F"
+                   },
+                   {
+                       "at":  "2026-06-09T13:04:47.4623439Z",
+                       "type":  "batch",
+                       "agent":  "supervisor",
+                       "message":  "Batch F -\u003e in_progress"
+                   },
+                   {
+                       "at":  "2026-06-09T13:04:47.3358659Z",
+                       "type":  "resume",
+                       "agent":  "supervisor",
+                       "message":  "Week 2 Batch F - WPF + QA RBAC"
+                   },
+                   {
+                       "agent":  "supervisor",
+                       "message":  "Monitor Ralph ripristinato - Week 2 Batch F",
+                       "type":  "resume",
+                       "at":  "2026-06-09T13:04:46.6805814Z"
+                   },
+                   {
+                       "agent":  "supervisor",
+                       "message":  "Batch E -\u003e done",
+                       "type":  "batch",
+                       "at":  "2026-06-09T13:04:46.6805814Z"
+                   },
+                   {
+                       "agent":  "supervisor",
+                       "message":  "Batch F -\u003e in_progress",
+                       "type":  "batch",
+                       "at":  "2026-06-09T13:04:46.6805814Z"
+                   },
+                   {
+                       "agent":  "backend",
+                       "message":  "backend -\u003e frontend: Users API (in_progress)",
+                       "type":  "handoff",
+                       "at":  "2026-06-09T13:04:46.6805814Z"
+                   },
+                   {
+                       "agent":  "supervisor",
+                       "message":  "Gate Review Week 1 GO",
+                       "type":  "log",
+                       "at":  "2026-06-09T12:58:03Z"
+                   },
+                   {
+                       "agent":  "supervisor",
+                       "message":  "Overall: 55%",
+                       "type":  "progress",
+                       "at":  "2026-06-09T12:58:03Z"
+                   },
+                   {
+                       "agent":  "system",
+                       "message":  "Monitor attivo",
+                       "type":  "heartbeat",
+                       "at":  "2026-06-09T13:04:46.6805814Z"
+                   }
+               ],
+    "currentBatch":  "F",
+    "phase":  1,
+    "ralphLoop":  {
+                      "iteration":  4,
+                      "lastAction":  "Monitor attivo",
+                      "lastHeartbeat":  "2026-06-10T08:32:43.0960769Z",
+                      "status":  "running"
+                  },
+    "updatedAt":  "2026-06-10T08:32:43.0980786Z",
+    "tasks":  [
+                  {
+                      "agent":  "devops",
+                      "title":  "Repository + CI/CD",
+                      "status":  "done",
+                      "id":  "US-INFRA-01",
+                      "week":  1
+                  },
+                  {
+                      "agent":  "backend",
+                      "title":  "Login JWT",
+                      "status":  "done",
+                      "id":  "US-001",
+                      "week":  1
+                  },
+                  {
+                      "agent":  "frontend",
+                      "title":  "WPF navigation shell",
+                      "status":  "done",
+                      "id":  "US-012",
+                      "week":  1
+                  },
+                  {
+                      "agent":  "backend",
+                      "title":  "Setup Wizard",
+                      "status":  "done",
+                      "id":  "US-018",
+                      "week":  1
+                  },
+                  {
+                      "agent":  "backend",
+                      "title":  "CRUD Utenti",
+                      "status":  "done",
+                      "id":  "US-005",
+                      "week":  2
+                  },
+                  {
+                      "agent":  "backend",
+                      "title":  "RBAC Ruoli",
+                      "status":  "done",
+                      "id":  "US-006",
+                      "week":  2
+                  },
+                  {
+                      "agent":  "backend",
+                      "title":  "Multi-Azienda",
+                      "status":  "done",
+                      "id":  "US-007",
+                      "week":  2
+                  },
+                  {
+                      "agent":  "backend",
+                      "title":  "Selezione azienda",
+                      "status":  "done",
+                      "id":  "US-008",
+                      "week":  2
+                  },
+                  {
+                      "agent":  "backend",
+                      "title":  "Audit Log",
+                      "status":  "done",
+                      "id":  "US-009",
+                      "week":  2
+                  },
+                  {
+                      "agent":  "frontend",
+                      "title":  "WPF gestione utenti",
+                      "status":  "done",
+                      "id":  "US-005-ui",
+                      "week":  2
+                  },
+                  {
+                      "agent":  "qa",
+                      "title":  "Smoke test RBAC",
+                      "status":  "done",
+                      "id":  "smoke-rbac",
+                      "week":  2
+                  },
+                  {
+                      "id":  "US-007-ui",
+                      "title":  "US-007-ui",
+                      "agent":  "backend",
+                      "status":  "done",
+                      "week":  2
+                  },
+                  {
+                      "id":  "US-008-ui",
+                      "title":  "US-008-ui",
+                      "agent":  "backend",
+                      "status":  "done",
+                      "week":  2
+                  }
+              ]
+}

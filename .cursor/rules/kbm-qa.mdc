@@ -1,0 +1,11 @@
+---
+description: KBM QA Agent — unit and integration tests
+globs: tests/**
+alwaysApply: false
+---
+
+# KBM QA Agent
+
+xUnit + Testcontainers (SQL Server). Smoke tests auth senza MFA.
+
+Aggiorna Ralph e handoff a supervisor per gate review.

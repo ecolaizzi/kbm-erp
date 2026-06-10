@@ -1,0 +1,29 @@
+<UserControl x:Class="KBM.Client.Views.ModuleHomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0">
+        <StackPanel>
+            <DockPanel Margin="0,0,0,4">
+                <Border DockPanel.Dock="Left" Width="44" Height="44" CornerRadius="3" Margin="0,0,14,0"
+                        Background="{StaticResource Brush.PrimarySelect}">
+                    <TextBlock x:Name="ModuleIcon" Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                               Foreground="{StaticResource Brush.Primary}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="ModuleTitle" Text="Modulo" FontSize="22" FontWeight="SemiBold"
+                               Foreground="{StaticResource Brush.Text}"/>
+                    <TextBlock x:Name="ModuleSubtitle" Text="" FontSize="12"
+                               Foreground="{StaticResource Brush.TextSecondary}" Margin="0,2,0,0"/>
+                </StackPanel>
+            </DockPanel>
+
+            <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,14,0,18"/>
+
+            <TextBlock Text="FUNZIONI DEL MODULO" FontSize="11" FontWeight="SemiBold"
+                       Foreground="{StaticResource Brush.TextSecondary}" Margin="0,0,0,12"/>
+
+            <WrapPanel x:Name="Tiles"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

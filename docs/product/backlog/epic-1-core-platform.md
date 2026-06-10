@@ -25,7 +25,7 @@
 - Permessi richiesti: nessuno (endpoint pubblico)
 - Tabelle coinvolte: `Users`, `UserSessions`, `LoginAttempts`
 - API endpoints: `POST /api/auth/login`
-- Hash password: bcrypt con salt factor >= 12
+- Hash password: Argon2id (OWASP 2024)
 - Audit: loggare login riusciti e falliti con IP e user-agent
 
 ### Definition of Done

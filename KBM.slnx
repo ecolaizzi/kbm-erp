@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/KBM.Api/KBM.Api.csproj" />
+    <Project Path="src/KBM.Application/KBM.Application.csproj" />
+    <Project Path="src/KBM.Client/KBM.Client.csproj" />
+    <Project Path="src/KBM.Domain/KBM.Domain.csproj" />
+    <Project Path="src/KBM.Infrastructure.Persistence/KBM.Infrastructure.Persistence.csproj" />
+    <Project Path="src/KBM.Modules.Core/KBM.Modules.Core.csproj" />
+    <Project Path="src/KBM.Reporting/KBM.Reporting.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/KBM.IntegrationTests/KBM.IntegrationTests.csproj" />
+    <Project Path="tests/KBM.UnitTests/KBM.UnitTests.csproj" />
+  </Folder>
+</Solution>

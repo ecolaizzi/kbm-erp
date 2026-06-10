@@ -91,15 +91,24 @@ Tutti i deliverable di **Fase 0** (Research & Foundation) sono in [`/docs`](./do
 - [`/docs/research`](./docs/research) - Competitive analysis, workflows, glossario
 - [`/docs/governance`](./docs/governance) - Decision log, ownership matrix
 
-**Expert Bundles** (AI agents): [`/experts`](./experts) - 7 expert specializzati Augment Cosmos
+**Pipeline multi-agente**: [`AGENTS.md`](./AGENTS.md) + [`.cursor/rules/`](./.cursor/rules/) — monitoraggio live [`pipeline/ralph/dashboard.html`](./pipeline/ralph/dashboard.html)
 
 ---
 
 ## 🚀 Quick Start
 
-_(Coming soon - Fase 1 development)_
+```powershell
+# Build
+dotnet build KBM.slnx -c Release
 
-Repository setup, CI/CD, e scaffolding saranno disponibili in **Batch 3**.
+# Monitoraggio pipeline multi-agente (Ralph)
+.\pipeline\ralph\serve.ps1
+# → http://localhost:8765/pipeline/ralph/dashboard.html
+
+# DB dev: copia .env.example → .env, poi User Secrets su KBM.Api
+```
+
+Vedi [`AGENTS.md`](./AGENTS.md) per orchestrazione agenti Cursor.
 
 ---
 

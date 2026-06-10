@@ -1,5 +1,8 @@
 # KBM - MVP Scope Definition
 
+> **SUPERSEDED** — MVP 2 mesi definito in [`scope-2months.md`](scope-2months.md) (include Ciclo Attivo). MFA posticipato a fine progetto.
+
+
 **Versione**: 1.0  
 **Data**: 2026-06-09  
 **Owner**: Product Owner Agent  

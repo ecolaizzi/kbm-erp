@@ -1,0 +1,67 @@
+<Window x:Class="KBM.Client.CompanyPickerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Selezione azienda" Height="420" Width="460"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+    <Border Background="White" BorderBrush="{StaticResource Brush.Border}" BorderThickness="1" CornerRadius="4">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" Opacity="0.25" BlurRadius="20" ShadowDepth="3"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header band corporate -->
+            <Border Grid.Row="0" Padding="20,16" MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="{StaticResource C.Primary600}" Offset="0"/>
+                        <GradientStop Color="{StaticResource C.Primary700}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE825;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                               Foreground="White" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Selezione azienda" FontSize="16" FontWeight="SemiBold" Foreground="White"/>
+                        <TextBlock x:Name="OperatorText" FontSize="11" Foreground="#DCE6F2" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Grid.Row="1" Text="Scegli l'azienda con cui operare in questa sessione."
+                       FontSize="12" Foreground="{StaticResource Brush.TextSecondary}" Margin="20,14,20,6"/>
+
+            <ListBox x:Name="CompaniesList" Grid.Row="2" Margin="16,0,16,0" BorderThickness="1"
+                     BorderBrush="{StaticResource Brush.Border}"
+                     MouseDoubleClick="CompaniesList_MouseDoubleClick">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel Margin="4,6">
+                            <Border DockPanel.Dock="Left" CornerRadius="3" Padding="7,2" MinWidth="56"
+                                    Background="{StaticResource Brush.PrimarySelect}"
+                                    VerticalAlignment="Center" Margin="0,0,10,0">
+                                <TextBlock Text="{Binding Code}" FontSize="11" FontWeight="SemiBold"
+                                           TextAlignment="Center"
+                                           Foreground="{StaticResource Brush.PrimaryActive}"/>
+                            </Border>
+                            <TextBlock Text="{Binding BusinessName}" FontSize="13"
+                                       Foreground="{StaticResource Brush.Text}" VerticalAlignment="Center"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,16,20,18">
+                <Button Content="Annulla" Width="100" Height="34" Margin="0,0,8,0" IsCancel="True"/>
+                <Button Content="Accedi" Width="120" Height="34" Style="{StaticResource KbmButton}"
+                        Click="Continue_Click" IsDefault="True"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

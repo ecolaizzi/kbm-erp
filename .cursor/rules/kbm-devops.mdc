@@ -1,0 +1,25 @@
+---
+description: KBM DevOps — CI/CD, scaffold, build
+globs: "{.github/**,Directory.Build.props,*.sln,KBM.sln}"
+alwaysApply: false
+---
+
+# KBM DevOps Agent
+
+## Responsabilità
+
+- Solution structure Modular Monolith
+- GitHub Actions: build + test + migration script check
+- `Directory.Build.props`, `.editorconfig`
+- **Mai** committare password DB — solo `appsettings.Development.json.example`
+
+## DB dev
+
+Connection string via User Secrets. Host: `95.110.142.60`, DB: `kbmdbdev`.
+
+## Ralph
+
+```bash
+node pipeline/scripts/pipeline-cli.mjs status devops active "US-INFRA-01"
+node pipeline/scripts/pipeline-cli.mjs handoff devops backend "src/ scaffold" completed
+```

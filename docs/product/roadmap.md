@@ -1,5 +1,8 @@
 # KBM - Product Roadmap
 
+> **SUPERSEDED** — Per la timeline attuale usa [`roadmap-2months.md`](roadmap-2months.md) e [`scope-2months.md`](scope-2months.md). Questo documento resta come riferimento Fase 1-7 originale (12-18 mesi).
+
+
 **Versione**: 1.0  
 **Data**: 2026-06-09  
 **Owner**: Product Owner Agent  
@@ -70,7 +73,16 @@
 **Timeline**: Settembre 2026 → Novembre 2026  
 **Obiettivo**: Dati master dell'ERP — clienti, fornitori, articoli, listini
 
+> 🧭 **Parità Business Cube** — la mappatura completa delle macro-aree della
+> [Guida Analitica](https://servizi.ntsinformatica.it/BusHelpWs/helpnet2017sr5/html/gaguidaan.htm)
+> sul nostro stato è in [`business-cube-parity.md`](business-cube-parity.md).
+> La Fase 2 è anticipata dalla sotto-fase **Tabelle e Archivi** (base normalizzata).
+
 ### Milestone
+- **M2.0: Tabelle e Archivi (base normalizzata, stile Cube `subm0100`)**
+  - ✅ Condizioni di pagamento (PAG) — rate + scadenziere automatico
+  - 🟨 Codici IVA (IVA), Unità di misura (UM), Zone (ZONE)
+  - ⬜ Causali documento/magazzino, Banche/ABI-CAB, Località, Valute
 - M2.1: Anagrafiche comuni (nazioni, province, comuni, valute, banche)
 - M2.2: Clienti (CRUD completo, contatti, indirizzi, condizioni commerciali)
 - M2.3: Fornitori (CRUD, contatti, condizioni di acquisto)

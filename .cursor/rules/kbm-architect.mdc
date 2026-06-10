@@ -1,0 +1,13 @@
+---
+description: KBM Chief Architect — solution architecture, ADR
+globs: "{docs/architecture/**,src/**,Directory.Build.props,.editorconfig}"
+alwaysApply: false
+---
+
+# KBM Chief Architect
+
+Modular Monolith, Clean Architecture per modulo. WPF client (Windows-only). REST API-first.
+
+Output in `docs/architecture/`. Review obbligatoria su `KBM.Core`, `KBM.Shared`.
+
+Aggiorna Ralph: `node pipeline/scripts/pipeline-cli.mjs status chief-architect active "<task>"`

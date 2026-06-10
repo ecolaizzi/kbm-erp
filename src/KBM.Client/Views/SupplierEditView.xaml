@@ -1,0 +1,323 @@
+<UserControl x:Class="KBM.Client.Views.SupplierEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Margin" Value="0,0,0,3"/>
+            <Setter Property="Foreground" Value="{StaticResource Brush.TextSecondary}"/>
+        </Style>
+        <Style x:Key="SectionBand" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource Brush.NavHeader}"/>
+            <Setter Property="Padding" Value="8,3"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style x:Key="SectionBandText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="10.5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="ColForm" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{StaticResource Brush.SurfaceAlt}" BorderBrush="{StaticResource Brush.Border}"
+                BorderThickness="1" CornerRadius="3" Padding="10,6" Margin="0,0,0,8">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button x:Name="SaveBtn" Style="{StaticResource KbmPrimary}" Height="28" Padding="14,0"
+                            Margin="0,0,8,0" Click="Save_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Salva" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Content="Annulla" Height="28" Padding="14,0" Click="Cancel_Click"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock x:Name="FormTitle" Text="Nuovo fornitore" FontSize="15" FontWeight="SemiBold"
+                               Foreground="{StaticResource Brush.Text}"/>
+                    <TextBlock x:Name="FormSubtitle" Text="Compila i dati e premi Salva" FontSize="11"
+                               Foreground="{StaticResource Brush.TextSecondary}" Margin="0,1,0,0"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border x:Name="ErrorBox" Grid.Row="1" Visibility="Collapsed" Margin="0,0,0,8"
+                Background="#FEF2F2" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="3" Padding="10,6">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE783;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                           Foreground="{StaticResource Brush.Error}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                <TextBlock x:Name="ErrorText" Foreground="#991B1B" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+        <TabControl Grid.Row="2" x:Name="Tabs" Background="Transparent" BorderThickness="0">
+            <!-- ========== 1 - Generale ========== -->
+            <TabItem Header="1 - Generale">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,10,8,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <Border Style="{StaticResource SectionBand}"><TextBlock Text="DATI PRINCIPALI" Style="{StaticResource SectionBandText}"/></Border>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Codice *" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="CodeBox"/>
+                                </StackPanel>
+                                <StackPanel x:Name="StatusPanel" Grid.Column="2" Style="{StaticResource ColForm}" Visibility="Collapsed">
+                                    <TextBlock Text="Stato" Style="{StaticResource FieldLabel}"/>
+                                    <ComboBox x:Name="StatusCombo">
+                                        <ComboBoxItem Content="Attivo" Tag="Active" IsSelected="True"/>
+                                        <ComboBoxItem Content="Disattivato" Tag="Inactive"/>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel Style="{StaticResource ColForm}">
+                                <TextBlock Text="Ragione sociale *" Style="{StaticResource FieldLabel}"/>
+                                <TextBox x:Name="BusinessNameBox"/>
+                            </StackPanel>
+
+                            <Border Style="{StaticResource SectionBand}" Margin="0,8,0,8"><TextBlock Text="DATI FISCALI" Style="{StaticResource SectionBandText}"/></Border>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Partita IVA" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="VatBox" MaxLength="13"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Codice Fiscale" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="FiscalCodeBox" MaxLength="16"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="0" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Codice SDI" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="SdiBox" MaxLength="7"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="2" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="PEC" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="PecBox"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <Border Style="{StaticResource SectionBand}"><TextBlock Text="RECAPITI" Style="{StaticResource SectionBandText}"/></Border>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Email" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="EmailBox"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Telefono" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="PhoneBox"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Border Style="{StaticResource SectionBand}" Margin="0,8,0,8"><TextBlock Text="INDIRIZZO SEDE" Style="{StaticResource SectionBandText}"/></Border>
+                            <StackPanel Style="{StaticResource ColForm}">
+                                <TextBlock Text="Indirizzo" Style="{StaticResource FieldLabel}"/>
+                                <TextBox x:Name="AddressBox"/>
+                            </StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Citt\u00e0" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="CityBox"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Prov." Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="ProvinceBox" MaxLength="2"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="4" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="CAP" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="PostalCodeBox" MaxLength="5"/>
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel Style="{StaticResource ColForm}">
+                                <TextBlock Text="Note" Style="{StaticResource FieldLabel}"/>
+                                <TextBox x:Name="NotesBox" Height="56" AcceptsReturn="True" TextWrapping="Wrap"
+                                         VerticalContentAlignment="Top"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ========== 2 - Indirizzi ========== -->
+            <TabItem Header="2 - Indirizzi">
+                <DockPanel Margin="0,8,0,0">
+                    <Border DockPanel.Dock="Top" Style="{StaticResource SectionBand}">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <Button Content="+ Aggiungi" Height="22" Padding="8,0" Margin="0,0,6,0" Click="AddrAdd_Click"/>
+                                <Button Content="Rimuovi" Height="22" Padding="8,0" Click="AddrDel_Click"/>
+                            </StackPanel>
+                            <TextBlock Text="DESTINAZIONI / INDIRIZZI AGGIUNTIVI" Style="{StaticResource SectionBandText}" VerticalAlignment="Center"/>
+                        </DockPanel>
+                    </Border>
+                    <ContentControl x:Name="AddressGridHost"/>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ========== 3 - Contatti ========== -->
+            <TabItem Header="3 - Contatti">
+                <DockPanel Margin="0,8,0,0">
+                    <Border DockPanel.Dock="Top" Style="{StaticResource SectionBand}">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <Button Content="+ Aggiungi" Height="22" Padding="8,0" Margin="0,0,6,0" Click="ContactAdd_Click"/>
+                                <Button Content="Rimuovi" Height="22" Padding="8,0" Click="ContactDel_Click"/>
+                            </StackPanel>
+                            <TextBlock Text="REFERENTI / CONTATTI" Style="{StaticResource SectionBandText}" VerticalAlignment="Center"/>
+                        </DockPanel>
+                    </Border>
+                    <ContentControl x:Name="ContactGridHost"/>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ========== 4 - Dati acquisto ========== -->
+            <TabItem Header="4 - Dati acquisto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,10,8,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <Border Style="{StaticResource SectionBand}"><TextBlock Text="PAGAMENTI" Style="{StaticResource SectionBandText}"/></Border>
+                            <StackPanel Style="{StaticResource ColForm}">
+                                <TextBlock Text="Modalit\u00e0 di pagamento" Style="{StaticResource FieldLabel}"/>
+                                <TextBox x:Name="PaymentMethodBox"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource ColForm}">
+                                <TextBlock Text="Condizioni di pagamento" Style="{StaticResource FieldLabel}"/>
+                                <TextBox x:Name="PaymentTermsBox"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource ColForm}">
+                                <TextBlock Text="IBAN principale" Style="{StaticResource FieldLabel}"/>
+                                <TextBox x:Name="IbanBox" MaxLength="34"/>
+                            </StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox x:Name="SplitPaymentCheck" Grid.Column="0" Content="Scissione pagamenti" Margin="0,4,0,0"/>
+                                <CheckBox x:Name="WithholdingCheck" Grid.Column="2" Content="Ritenuta d'acconto" Margin="0,4,0,0"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <Border Style="{StaticResource SectionBand}"><TextBlock Text="ACQUISTO / CONTABILE" Style="{StaticResource SectionBandText}"/></Border>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Listino acquisto" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="PriceListBox"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Zona" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="ZoneBox"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="0" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Sconto %" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="DiscountBox"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="2" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Fido (limite credito)" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="CreditLimitBox"/>
+                                </StackPanel>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Cod. esenzione IVA" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="VatExemptionBox"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Style="{StaticResource ColForm}">
+                                    <TextBlock Text="Sottoconto contabile" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="AccountCodeBox"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ========== 5 - Banche ========== -->
+            <TabItem Header="5 - Banche">
+                <DockPanel Margin="0,8,0,0">
+                    <Border DockPanel.Dock="Top" Style="{StaticResource SectionBand}">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <Button Content="+ Aggiungi" Height="22" Padding="8,0" Margin="0,0,6,0" Click="BankAdd_Click"/>
+                                <Button Content="Rimuovi" Height="22" Padding="8,0" Click="BankDel_Click"/>
+                            </StackPanel>
+                            <TextBlock Text="COORDINATE BANCARIE" Style="{StaticResource SectionBandText}" VerticalAlignment="Center"/>
+                        </DockPanel>
+                    </Border>
+                    <ContentControl x:Name="BankGridHost"/>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+
+        <Border Grid.Row="3" BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,1,0,0"
+                Margin="0,10,0,0" Padding="0,8,0,0">
+            <TextBlock FontSize="11" Foreground="{StaticResource Brush.TextMuted}"
+                       Text="I dati correlati (indirizzi, contatti, banche) vengono salvati insieme all'anagrafica."/>
+        </Border>
+    </Grid>
+</UserControl>

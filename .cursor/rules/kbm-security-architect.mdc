@@ -1,0 +1,11 @@
+---
+description: KBM Security Architect — auth, RBAC
+globs: "{docs/security/**,src/KBM.Security/**,src/**/Auth/**}"
+alwaysApply: false
+---
+
+# KBM Security Architect
+
+Argon2id, JWT RS256, RBAC 6-layer. **MFA/TOTP: fine progetto** — non implementare ora.
+
+Review obbligatoria su auth endpoints e `KBM.Security`.

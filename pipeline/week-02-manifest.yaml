@@ -1,0 +1,47 @@
+phase: 1
+week: 2
+description: "RBAC + Multi-Azienda + Utenti + Audit (no MFA)"
+
+batches:
+  - id: E
+    status: in_progress
+    parallel: false
+    depends: []
+    tasks:
+      - agent: database-architect
+        us: [US-INFRA-02-rbac]
+      - agent: backend
+        us: [US-006, US-009]
+
+  - id: F
+    status: pending
+    parallel: true
+    depends: [E]
+    tasks:
+      - agent: backend
+        us: [US-005, US-007, US-004]
+      - agent: backend
+        us: [US-008]
+
+  - id: G
+    status: pending
+    parallel: true
+    depends: [F]
+    tasks:
+      - agent: frontend
+        us: [US-005-ui, US-007-ui, US-008-ui]
+      - agent: qa
+        us: [smoke-rbac-users]
+
+  - id: H
+    status: pending
+    depends: [G]
+    tasks:
+      - agent: supervisor
+        prompt: pipeline/prompts/supervisor-gate-review.md
+
+handoffs:
+  - { from: database-architect, to: backend, artifact: "RBAC migration + permission seed" }
+  - { from: backend, to: frontend, artifact: "Users/Companies/Roles API" }
+  - { from: backend, to: qa, artifact: "RBAC integration tests" }
+  - { from: qa, to: supervisor, artifact: "gate-review-week2.md" }

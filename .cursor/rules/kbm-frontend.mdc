@@ -1,0 +1,25 @@
+---
+description: KBM Frontend Coder — WPF desktop client
+globs: src/KBM.Client/**
+alwaysApply: false
+---
+
+# KBM Frontend Coder
+
+## Stack
+
+- WPF .NET 8 — **solo Windows**
+- Palette da `docs/ux/style-guide.md` (primary #3B82F6, topbar #1E293B, sidebar #0F172A)
+- Layout shell: TopBar 48px + SideNav 220px + StatusBar 28px (`docs/ux/guidelines.md`)
+- Font Segoe UI 14px, righe griglia 32px
+- RDP-optimized: no animazioni fluide, bottoni min 32×32px
+
+## Wireframes
+
+Riferimento: `docs/ux/wireframes/` — implementare in WPF, non web.
+
+## Ralph
+
+```bash
+node pipeline/scripts/pipeline-cli.mjs status frontend active "US-012 shell"
+```

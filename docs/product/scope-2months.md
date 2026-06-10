@@ -56,7 +56,7 @@ Modulo con:
 ### Core Platform (Week 1-2)
 **IN SCOPE**:
 - ✅ Login + JWT + Refresh Token
-- ✅ MFA (TOTP) — opzionale utente, obbligatorio Admin
+- ~~MFA (TOTP)~~ — posticipato a fine progetto (vedi `docs/security/mfa-totp.md`)
 - ✅ CRUD Utenti (create, edit, disable, enable)
 - ✅ RBAC granulare (ruoli + permessi atomici per modulo/risorsa/azione)
 - ✅ Ruoli predefiniti (Admin, Manager, Operatore, ReadOnly)

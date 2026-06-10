@@ -31,7 +31,7 @@
 | US-008 | Selezione Contesto Azienda al Login | **P0** | S | W2 |
 | US-009 | Audit Log — Tracciamento Operazioni | **P0** | L | W2 |
 | US-013 | Assegnazione Utenti ad Aziende | **P0** | M | W2 |
-| US-002 | Multi-Factor Authentication (MFA) | **P0** | L | W2 |
+| US-002 | Multi-Factor Authentication (MFA) | **P2** | L | Fine progetto |
 | US-011 | Dashboard Home base | **P0** | M | W3 |
 | US-012 | Navigazione e Shell Applicativa | **P0** | M | W3 |
 | US-010 | Configurazione Sistema (Parametri) | **P1** | M | W7-8 |

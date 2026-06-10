@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KBM Ralph — Pipeline Multi-Agente Live</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --primary: #3b82f6;
+      --active: #22c55e;
+      --pending: #64748b;
+      --blocked: #f59e0b;
+      --done: #06b6d4;
+      --error: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 14px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 { font-size: 18px; font-weight: 600; }
+    header h1 span { color: var(--primary); }
+    .meta { display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
+    .meta strong { color: var(--text); }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--active);
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+    .live-dot.stale { background: var(--error); animation: none; }
+    .live-dot.paused { background: var(--blocked); }
+    .conn-ok { color: var(--active); }
+    .conn-stale { color: var(--error); }
+    .conn-paused { color: var(--blocked); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    main { display: grid; grid-template-columns: 1fr 340px; grid-template-rows: auto 1fr auto; gap: 12px; padding: 12px; height: calc(100vh - 52px); }
+    .graph-panel { grid-row: 1 / 3; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+    .graph-panel h2 { padding: 10px 14px; font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--border); }
+    #graph-svg { flex: 1; width: 100%; min-height: 400px; }
+    .side-panel { display: flex; flex-direction: column; gap: 12px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .card h2 { padding: 10px 14px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: .05em; }
+    .card-body { padding: 10px 14px; max-height: 220px; overflow-y: auto; }
+    .progress-bar { height: 6px; background: var(--border); border-radius: 3px; margin: 8px 0; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width .5s; }
+    .batch { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+    .batch:last-child { border: none; }
+    .badge {
+      padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase;
+    }
+    .badge-in_progress { background: #1d4ed833; color: #60a5fa; }
+    .badge-pending { background: #47556933; color: var(--muted); }
+    .badge-done, .badge-completed { background: #04785733; color: #34d399; }
+    .badge-blocked { background: #b4530933; color: #fbbf24; }
+    .event { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 11px; }
+    .event time { color: var(--muted); margin-right: 6px; }
+    .event .agent { color: var(--primary); font-weight: 600; }
+    .handoff-row { font-size: 11px; padding: 5px 0; display: grid; grid-template-columns: 1fr auto; gap: 4px; }
+    .handoff-arrow { color: var(--muted); }
+    .bottom { grid-column: 1 / -1; }
+    .agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; padding: 10px 14px; }
+    .agent-chip {
+      padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: 11px; transition: border-color .3s, box-shadow .3s;
+    }
+    .agent-chip.active { border-color: var(--active); box-shadow: 0 0 0 1px #22c55e44; }
+    .agent-chip.pending { border-color: var(--pending); }
+    .agent-chip.blocked { border-color: var(--blocked); }
+    .agent-chip.done { border-color: var(--done); opacity: .7; }
+    .agent-chip .name { font-weight: 600; margin-bottom: 2px; }
+    .agent-chip .task { color: var(--muted); font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ralph-status { font-size: 12px; color: var(--muted); padding: 4px 0; }
+    .node circle { stroke-width: 2; transition: r .3s; }
+    .node text { font-size: 10px; fill: var(--text); pointer-events: none; }
+    .edge { fill: none; stroke-width: 2; opacity: .5; transition: opacity .3s, stroke-width .3s; }
+    .edge.active { opacity: 1; stroke-width: 3; animation: flow 1.5s linear infinite; }
+    @keyframes flow { 0%{stroke-dashoffset:20} 100%{stroke-dashoffset:0} }
+    .edge-label { font-size: 9px; fill: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><span>KBM</span> Ralph Pipeline Monitor</h1>
+    <div class="meta">
+      <span><span class="live-dot" id="live-dot"></span> <span id="conn-label">Live</span></span>
+      <span>Week <strong id="week">—</strong></span>
+      <span>Batch <strong id="batch">—</strong></span>
+      <span>Stato <strong id="loop-status">—</strong></span>
+      <span>Poll <strong id="poll-time">—</strong></span>
+      <span>Stato file <strong id="updated">—</strong></span>
+    </div>
+  </header>
+  <main>
+    <section class="graph-panel">
+      <h2>Grafo agenti — handoff e flusso task</h2>
+      <svg id="graph-svg"></svg>
+    </section>
+    <aside class="side-panel">
+      <div class="card">
+        <h2>Avanzamento</h2>
+        <div class="card-body">
+          <div class="ralph-status" id="ralph-action">—</div>
+          <div class="progress-bar"><div class="progress-fill" id="overall-bar" style="width:0%"></div></div>
+          <div style="font-size:11px;color:var(--muted)" id="overall-pct">0%</div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Batch settimanali</h2>
+        <div class="card-body" id="batches"></div>
+      </div>
+      <div class="card">
+        <h2>Handoff attivi</h2>
+        <div class="card-body" id="handoffs"></div>
+      </div>
+      <div class="card" style="flex:1">
+        <h2>Eventi live</h2>
+        <div class="card-body" id="events" style="max-height:none;flex:1"></div>
+      </div>
+    </aside>
+    <section class="card bottom">
+      <h2>Stato agenti (13)</h2>
+      <div class="agents-grid" id="agents-grid"></div>
+    </section>
+  </main>
+  <script>
+    const STATUS_COLORS = {
+      active: '#22c55e', pending: '#64748b', blocked: '#f59e0b',
+      done: '#06b6d4', idle: '#475569', in_progress: '#3b82f6',
+      completed: '#22c55e'
+    };
+
+    const NODE_POS = {
+      supervisor: { x: 400, y: 40 },
+      'product-owner': { x: 80, y: 120 },
+      'chief-architect': { x: 200, y: 120 },
+      'database-architect': { x: 320, y: 120 },
+      'security-architect': { x: 440, y: 120 },
+      'ux-designer': { x: 560, y: 120 },
+      scouting: { x: 680, y: 120 },
+      devops: { x: 120, y: 240 },
+      backend: { x: 280, y: 240 },
+      frontend: { x: 440, y: 240 },
+      'module-coder': { x: 600, y: 240 },
+      qa: { x: 760, y: 240 },
+      documentation: { x: 400, y: 340 }
+    };
+
+    function fmtTime(iso) {
+      if (!iso) return '—';
+      const d = new Date(iso);
+      return d.toLocaleString('it-IT', {
+        day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+    }
+
+    function fmtAgo(iso) {
+      if (!iso) return 'mai';
+      const sec = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+      if (sec < 10) return 'adesso';
+      if (sec < 60) return sec + 's fa';
+      if (sec < 3600) return Math.floor(sec / 60) + 'min fa';
+      return Math.floor(sec / 3600) + 'h fa';
+    }
+
+    function renderGraph(state) {
+      const svg = document.getElementById('graph-svg');
+      const w = svg.clientWidth || 800;
+      const h = svg.clientHeight || 400;
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+
+      const scaleX = w / 800;
+      const scaleY = h / 380;
+
+      let html = '<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>';
+
+      (state.handoffs || []).forEach(ho => {
+        const from = NODE_POS[ho.from];
+        const to = NODE_POS[ho.to];
+        if (!from || !to) return;
+        const fx = from.x * scaleX, fy = from.y * scaleY;
+        const tx = to.x * scaleX, ty = to.y * scaleY;
+        const mx = (fx + tx) / 2, my = (fy + ty) / 2 - 20;
+        const active = ho.status === 'in_progress';
+        const color = STATUS_COLORS[ho.status] || '#64748b';
+        html += `<path class="edge${active ? ' active' : ''}" d="M${fx},${fy} Q${mx},${my} ${tx},${ty}"
+          stroke="${color}" stroke-dasharray="${active ? '8 4' : 'none'}" marker-end="url(#arrow)"/>`;
+        if (active || ho.status === 'completed') {
+          html += `<text class="edge-label" x="${mx}" y="${my - 4}" text-anchor="middle">${(ho.artifact || '').slice(0, 24)}</text>`;
+        }
+      });
+
+      (state.agents || []).forEach(a => {
+        const pos = NODE_POS[a.id];
+        if (!pos) return;
+        const x = pos.x * scaleX, y = pos.y * scaleY;
+        const r = a.status === 'active' ? 22 : 18;
+        const color = STATUS_COLORS[a.status] || '#64748b';
+        html += `<g class="node" data-id="${a.id}">
+          <circle cx="${x}" cy="${y}" r="${r}" fill="${color}22" stroke="${color}"/>
+          <text x="${x}" y="${y + 4}" text-anchor="middle">${a.name.split(' ')[0]}</text>
+        </g>`;
+      });
+
+      svg.innerHTML = html;
+    }
+
+    function render(state) {
+      const ts = state.updatedAt || state.ralphLoop?.lastHeartbeat;
+      const staleSec = ts ? (Date.now() - new Date(ts).getTime()) / 1000 : 9999;
+      const isStale = staleSec > 120;
+      const isPaused = state.ralphLoop?.status === 'paused';
+      const dot = document.getElementById('live-dot');
+      const connLabel = document.getElementById('conn-label');
+      dot.className = 'live-dot' + (isStale ? ' stale' : isPaused ? ' paused' : '');
+      connLabel.textContent = isStale ? 'Stato fermo' : isPaused ? 'In pausa' : 'Live';
+      connLabel.className = isStale ? 'conn-stale' : isPaused ? 'conn-paused' : 'conn-ok';
+
+      document.getElementById('week').textContent = state.week;
+      document.getElementById('batch').textContent = state.currentBatch;
+      document.getElementById('loop-status').textContent = state.ralphLoop?.status ?? '—';
+      const hb = state.ralphLoop?.lastHeartbeat;
+      document.getElementById('updated').textContent =
+        fmtAgo(ts) + (hb ? ' | HB ' + fmtAgo(hb) : '') + ' (' + fmtTime(state.updatedAt) + ')';
+      document.getElementById('ralph-action').textContent = state.ralphLoop?.lastAction || '—';
+      if (isStale) {
+        document.getElementById('ralph-action').textContent += ' — ⚠ Nessun aggiornamento da >2min. Esegui pipeline-cli.ps1 o avvia heartbeat.ps1';
+      }
+      document.getElementById('overall-bar').style.width = (state.overallProgress || 0) + '%';
+      document.getElementById('overall-pct').textContent = (state.overallProgress || 0) + '% completato';
+
+      const batches = (state.batches || []).slice().sort((a, b) => {
+        const order = 'ABCDEFGH';
+        return order.indexOf(a.id) - order.indexOf(b.id);
+      });
+      document.getElementById('batches').innerHTML = batches.map(b =>
+        `<div class="batch"><span class="badge badge-${b.status}">${b.id}</span>
+         <span>${b.status}</span>
+         <span style="color:var(--muted);margin-left:auto">${state.currentBatch === b.id ? '◀ corrente' : ''} ${(b.tasks||[]).length} task</span></div>`
+      ).join('') || '<div style="color:var(--muted);font-size:11px">Nessun batch</div>';
+
+      document.getElementById('handoffs').innerHTML = (state.handoffs || [])
+        .filter(h => h.status !== 'pending' || h.at)
+        .slice(0, 8).map(h =>
+        `<div class="handoff-row">
+          <span><span class="agent">${h.from}</span> <span class="handoff-arrow">→</span> ${h.to}<br><small>${h.artifact}</small></span>
+          <span class="badge badge-${h.status}">${h.status}</span>
+        </div>`
+      ).join('') || '<div style="color:var(--muted);font-size:11px">Nessun handoff attivo</div>';
+
+      document.getElementById('events').innerHTML = (state.events || []).slice(0, 15).map(e =>
+        `<div class="event"><time>${fmtTime(e.at)}</time><span class="agent">${e.agent}</span> ${e.message}</div>`
+      ).join('');
+
+      document.getElementById('agents-grid').innerHTML = (state.agents || []).map(a =>
+        `<div class="agent-chip ${a.status}">
+          <div class="name">${a.name}</div>
+          <div class="task">${a.currentTask || a.status} · ${a.progress}%</div>
+        </div>`
+      ).join('');
+
+      renderGraph(state);
+    }
+
+    let lastPollOk = null;
+
+    async function poll() {
+      try {
+        const res = await fetch('state.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const state = await res.json();
+        lastPollOk = new Date();
+        document.getElementById('poll-time').textContent = fmtTime(lastPollOk.toISOString());
+        render(state);
+      } catch (e) {
+        document.getElementById('poll-time').textContent = 'errore';
+        document.getElementById('live-dot').className = 'live-dot stale';
+        document.getElementById('conn-label').textContent = 'Server down';
+        document.getElementById('ralph-action').textContent = 'Errore: ' + e.message + ' — avvia .\\pipeline\\ralph\\serve.ps1';
+      }
+    }
+
+    poll();
+    setInterval(poll, 2000);
+    window.addEventListener('resize', poll);
+  </script>
+</body>
+</html>
